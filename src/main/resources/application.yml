@@ -1,0 +1,46 @@
+spring:
+    application:
+        name: copilotdemo
+    datasource:
+      url: jdbc:h2:mem:clinicals
+      driver-class-name: org.h2.Driver
+      username: sa
+      password:
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
+    devtools:
+        restart:
+            enabled: true
+    main:
+        allow-bean-definition-overriding: true
+    kafka:
+      bootstrap-servers: titansenew.internal-useast1.onsolve.com:30001
+      consumer:
+        key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+        value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+        properties:
+          spring.json.trusted.packages: "*"
+      listener:
+        ack-mode: MANUAL_IMMEDIATE
+        auto-startup: false
+logging:
+  structured:
+    format:
+      console: ecs
+      file: ecs
+    json:
+      stacktrace:
+        root: first
+        max-length: 1024
+        include-common-frames: true
+        include-hashes: true
+kafka:
+  listener:
+    topic: debitopic
+    group: a
+    concurrency: 1
+  worker:
+    enabled: false
+    thread: 10
